@@ -51,10 +51,9 @@ inline void MemoryBarrier() {
 // any known ARMv6 or ARMv7 variant, where it is possible to directly
 // use ldrex/strex instructions to implement fast atomic operations.
 #if defined(__ARM_ARCH_7__) || defined(__ARM_ARCH_7A__) || \
-    defined(__ARM_ARCH_7R__) || defined(__ARM_ARCH_7M__) || \
-    defined(__ARM_ARCH_6__) || defined(__ARM_ARCH_6J__) || \
-    defined(__ARM_ARCH_6K__) || defined(__ARM_ARCH_6Z__) || \
-    defined(__ARM_ARCH_6KZ__) || defined(__ARM_ARCH_6T2__)
+    defined(__ARM_ARCH_7R__) || defined(__ARM_ARCH_7M__)
+
+/* LDREX/STREX routines broken on ARMv6 */
 
 inline Atomic32 NoBarrier_CompareAndSwap(volatile Atomic32* ptr,
                                          Atomic32 old_value,
@@ -147,7 +146,12 @@ inline Atomic32 NoBarrier_AtomicExchange(volatile Atomic32* ptr,
 
 // This tests against any known ARMv5 variant.
 #elif defined(__ARM_ARCH_5__) || defined(__ARM_ARCH_5T__) || \
-      defined(__ARM_ARCH_5TE__) || defined(__ARM_ARCH_5TEJ__)
+      defined(__ARM_ARCH_5TE__) || defined(__ARM_ARCH_5TEJ__) || \
+      defined(__ARM_ARCH_6__) || defined(__ARM_ARCH_6J__) || \
+      defined(__ARM_ARCH_6K__) || defined(__ARM_ARCH_6Z__) || \
+      defined(__ARM_ARCH_6KZ__) || defined(__ARM_ARCH_6T2__)
+
+/* LDREX/STREX routines broken on ARMv6 */
 
 // The kernel also provides a helper function to perform an atomic
 // compare-and-swap operation at the hard-wired address 0xffff0fc0.
